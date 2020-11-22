@@ -4,8 +4,8 @@ import Header from './Header'
 import About from './About'
 import OffendersOffensesContainer from './OffendersOffensesContainer'
 import ShameContainer from './ShameContainer'
-import OffendersForm from './OffendersForm'
-import OffensesForm from './OffensesForm'
+import OffenderForm from './OffenderForm'
+import OffenseForm from './OffenseForm'
 import Footer from './Footer'
 import * as Constants from './Constants'
 
@@ -49,7 +49,23 @@ export default class App extends Component {
             this.setState({offenses: this.state.offenses.filter(offense => offense.id !== offenseId)})
         });
     }
-
+    handleOffenseSubmit = (description) => {
+        fetch(`${Constants.OFFENSES_URL}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                    name: description,
+                },
+            ),})
+            .then(resp => resp.json())
+            .then((json) => {
+                let newOffenseArr = this.state.offenses
+                newOffenseArr.push(json)
+                this.setState({offenses: newOffenseArr})
+        })
+    }
 
     render() {
         return (
@@ -62,8 +78,8 @@ export default class App extends Component {
                         handleDeleteOffender={this.handleDeleteOffender}
                         handleDeleteOffense={this.handleDeleteOffense}/>
                     <ShameContainer/>
-                    <OffendersForm/>
-                    <OffensesForm/>
+                    <OffenderForm offenses={this.state.offenses}/>
+                    <OffenseForm handleOffenseSubmit={this.handleOffenseSubmit}/>
                 </div>
                 <Footer/>
             </>
