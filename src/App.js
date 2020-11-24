@@ -66,6 +66,9 @@ export default class App extends Component {
                 this.setState({offenses: newOffenseArr})
         })
     }
+    handleOffenderSubmit = (e) => {
+        e.preventDefault()
+    }
 
     render() {
         return (
@@ -78,7 +81,7 @@ export default class App extends Component {
                         handleDeleteOffender={this.handleDeleteOffender}
                         handleDeleteOffense={this.handleDeleteOffense}/>
                     <ShameContainer/>
-                    <OffenderForm offenses={this.state.offenses}/>
+                    <OffenderForm offenses={this.state.offenses} handleOffenderSubmit={this.handleOffenderSubmit}/>
                     <OffenseForm handleOffenseSubmit={this.handleOffenseSubmit}/>
                 </div>
                 <Footer/>

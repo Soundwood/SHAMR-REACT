@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
+import * as Constants from './Constants'
 
 export default class OffenderForm extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            name: ""
+            name: "",
+            sanitizedName: ""
         }
         this.handleChange = this.handleChange.bind(this)
     }
     handleChange(e) {
         this.setState({name: e.target.value})
+    }
+    getTwitterUserInfo() {
+        
     }
     render() {
         return (
@@ -24,9 +29,18 @@ export default class OffenderForm extends Component {
                                     <div key={offense.id}>
                                         <input type="checkbox" id={offense.id}/>
                                         <label> {offense.name}</label><br/>
-                                    </div>)})
-                        }</div>
-                        <p><button id="create_change_offender_btn" className="w3-button w3-black" type="submit">CREATE OFFENDER</button></p>
+                                    </div>)})}
+                        </div>
+                        <p><button onClick={(e) => {
+                            e.preventDefault()
+                            let offensesArray = []
+                            let checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+                            for (let i = 0; i < checkboxes.length; i++) {
+                                offensesArray.push(this.props.offenses.find(x => x.id === parseInt(checkboxes[i].name, 10)))
+                            }
+                            this.getTwitterUserInfo(this.state.sanitizedName, offensesArray)
+                            this.props.handleOffenderSubmit(e, this.state.name)}
+                        } id="create_change_offender_btn" className="w3-button w3-black" type="submit">CREATE OFFENDER</button></p>
                     </form>
                 <br/>
                 </div>
