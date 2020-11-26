@@ -29,7 +29,7 @@ export default class ShameContainer extends Component {
             return username}
     }
     getFriendsFetch(sanitizedUsername) {
-        fetch(`${Constants.GET_FRIENDS_URL}/${sanitizedUsername}&cursor=${this.state.fetch_cursor}`)
+        fetch(`${Constants.GET_TWITTER_FRIENDS_URL}/${sanitizedUsername}&cursor=${this.state.fetch_cursor}`)
             .then(res => res.json())
             .then(json => {
                 if (json.next_cursor !== 0) {
