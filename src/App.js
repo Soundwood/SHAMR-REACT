@@ -65,14 +65,15 @@ export default class App extends Component {
     }
     handleOffenderSubmit = (e, sanitizedTwitterUsername) => {
         e.preventDefault()
-        let checkedOffensesArr = this.state.offenses.map(offense => offense.checked === true)
+        let checkedOffensesArr = this.state.offenses.filter(offense => offense.checked === true)
         fetch(`${Constants.TWITTER_USER_INFO_URL}/${sanitizedTwitterUsername}`)
         .then(res => res.json())
         .then(json => {
             if (json.errors || json.error) {
-                console.log(json.error || json.errors)
+                alert(json.error || json.errors)
             } else {
                 this.handleCreateOffender(json.data, checkedOffensesArr)
+                alert("Offender Successfully Created")
         }})
     }
     handleCreateOffender = (offender, offenses) => {
@@ -85,17 +86,15 @@ export default class App extends Component {
                     username: offender.username,
                     user_id: offender.id,
                     display_name: offender.name,
-                    offense_categories: offenses,
-            })
-        })
+                    offense_categories: offenses,})})
         .then((resp) => resp.json())
         .then((data) => {
             if (data.errors) {
                 console.log(data.errors);
             } else {
-                debugger
                 let newOffenderArr = this.state.offenders
                 newOffenderArr.push(data)
+                this.setState(newOffenderArr)
             }
         })
     }
