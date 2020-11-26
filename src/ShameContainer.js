@@ -8,10 +8,6 @@ export default class ShameContainer extends Component {
         this.state = {
             username: "",
             shameAttempt: false,
-            intersection: [],
-            fetch_cursor: -1,
-            friends_ids_list: [],
-            offenders_ids: []
         }
         this.handleChange = this.handleChange.bind(this)
     }
@@ -27,23 +23,30 @@ export default class ShameContainer extends Component {
             return username.substring(1)
         } else {
             return username}
-    }
+        }
+    intersection = []
+    fetch_cursor = -1
+    friends_ids_list = []
+    offenders_ids = []
     getFriendsFetch(sanitizedUsername) {
         fetch(`${Constants.GET_TWITTER_FRIENDS_URL}/${sanitizedUsername}&cursor=${this.state.fetch_cursor}`)
-            .then(res => res.json())
-            .then(json => {
-                if (json.next_cursor !== 0) {
-                    this.setState({fetch_cursor: json.next_cursor})
-                    json.users.forEach((user) => {
-                        this.state.friends_ids_list.push(user.id)})
-                    this.getFriendsFetch(sanitizedUsername)
-                } else {
-                    this.setState({shameAttempt: true})
-                    json.users.forEach((user) => {
-                        this.state.friends_ids_list.push(user.id)})
-                    this.setState({intersection: this.state.offenders_ids.filter(element => this.state.friends_ids_list.includes(element))})
-                }
-            })
+        .then(res => res.json())
+        .then(json => {
+            if (json.errors || json.error) {
+                console.log(json.errors || json.error)
+            } else if (json.next_cursor !== 0) {
+                this.fetch_cursor = json.next_cursor
+                json.users.forEach((user) => {
+                    this.friends_ids_list.push(user.id)}
+                )
+                this.getFriendsFetch(sanitizedUsername)
+            } else {
+                this.setState({shameAttempt: true})
+                json.users.forEach((user) => 
+                    this.friends_ids_list.push(user.id))
+                this.intersection = this.offenders_ids.filter(element => this.friends_ids_list.includes(element))
+            }
+        })
     }
     render() {
         return (
@@ -55,7 +58,7 @@ export default class ShameContainer extends Component {
                     <p><input value={this.state.username} onChange={this.handleChange} id="shame_input" className="w3-input w3-padding-16 w3-border" type="text" placeholder="Twitter Handle" required name="Name"/></p>
                     <p><button onClick={() => this.handleSubmit()} id="shame_button" className="w3-button w3-black" type="submit">SHAME!</button></p>
                 </div>
-                { this.state.shameAttempt ? <ShameResponse intersection={this.state.intersection}/> : null }
+                { this.state.shameAttempt ? <ShameResponse intersection={this.state.intersection} shamed={this.state.username}/> : null }
             </div>
         )
     }

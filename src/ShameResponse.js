@@ -1,10 +1,9 @@
 import React from 'react';
 
 const ShameResponse = (props) => {
-    debugger
     return (
         <div className="w3-content" id="shame_response_cont">
-            So much SHAME!
+            {props.intersection.length > 0 ? props.intersection : `Congrats! ${props.shamed} is free of shame. They are not associated with anoyone on the Offenders list`}
         </div>
     );
 };
