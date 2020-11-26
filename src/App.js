@@ -25,7 +25,7 @@ export default class App extends Component {
         fetch(Constants.OFFENSES_URL)
         .then(res => res.json())
         .then(json => {
-            this.setState({offenses: json})
+            this.setState({offenses: json.map(offense => ({...offense, checked: false}))})
             })
     }
     getOffenders = () => {
@@ -52,22 +52,60 @@ export default class App extends Component {
     handleOffenseSubmit = (description) => {
         fetch(`${Constants.OFFENSES_URL}`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: {"Content-Type": "application/json",},
             body: JSON.stringify({
                     name: description,
-                },
-            ),})
+                },),})
             .then(resp => resp.json())
             .then((json) => {
                 let newOffenseArr = this.state.offenses
                 newOffenseArr.push(json)
                 this.setState({offenses: newOffenseArr})
+            })
+    }
+    handleOffenderSubmit = (e, sanitizedTwitterUsername) => {
+        e.preventDefault()
+        let checkedOffensesArr = this.state.offenses.map(offense => offense.checked === true)
+        fetch(`${Constants.TWITTER_USER_INFO_URL}/${sanitizedTwitterUsername}`)
+        .then(res => res.json())
+        .then(json => {
+            if (json.errors || json.error) {
+                console.log(json.error || json.errors)
+            } else {
+                this.handleCreateOffender(json.data, checkedOffensesArr)
+        }})
+    }
+    handleCreateOffender = (offender, offenses) => {
+        fetch(`${Constants.OFFENDERS_URL}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                    username: offender.username,
+                    user_id: offender.id,
+                    display_name: offender.name,
+                    offense_categories: offenses,
+            })
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            if (data.errors) {
+                console.log(data.errors);
+            } else {
+                debugger
+                let newOffenderArr = this.state.offenders
+                newOffenderArr.push(data)
+            }
         })
     }
-    handleOffenderSubmit = (e) => {
-        e.preventDefault()
+    handleCheckboxCheck = (e, id) => {
+        let offenses = [...this.state.offenses]
+        let index = offenses.findIndex((offense) => offense.id === id)
+        let offense = {...offenses[index]}
+        offense.checked = !offense.checked
+        offenses[index] = offense
+        this.setState({offenses})
     }
 
     render() {
@@ -81,7 +119,7 @@ export default class App extends Component {
                         handleDeleteOffender={this.handleDeleteOffender}
                         handleDeleteOffense={this.handleDeleteOffense}/>
                     <ShameContainer/>
-                    <OffenderForm offenses={this.state.offenses} handleOffenderSubmit={this.handleOffenderSubmit}/>
+                    <OffenderForm offenses={this.state.offenses} handleCheckboxCheck={this.handleCheckboxCheck} handleOffenderSubmit={this.handleOffenderSubmit}/>
                     <OffenseForm handleOffenseSubmit={this.handleOffenseSubmit}/>
                 </div>
                 <Footer/>
