@@ -2,69 +2,34 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# SHAMR FLATIRON SPA w/ API BACKEND
 
-In the project directory, you can run:
+## About
 
-### `yarn start`
+SHAMR is meant to be an exercise in 'bad tech' in that this is not expected to be taken entirely seriously. While watching a PBS broadcast, the topic of the 'Chinese Social Credit System' was covered. You can read more about it here. I undertook this project to explore how tech can be used against us and ways in which it might go wrong.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+SHAMR can be used to create 'offenders' and associated 'offenses'. These elements are persisted to the backend API and viewable by anyone that visits the site. A user can also enter a twitter user to check if that user follows anyone in the 'offenders' list. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Have fun and don't take this too seriously.
 
-### `yarn test`
+![Shamer GIF](public/images/SHAMR_SCROLL.gif)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `yarn build`
+Navigate to and clone the backend api repo at [SHAMR API](https://github.com/Soundwood/SHAMR).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Follow the installation instructions but skip: "In the `app` folder open `index.html`"
+Please make sure the api backend is runnning on port 3000 or you can change all references to port 3000 in the `Constants.js` file
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+After cloning and starting the api backend, clone this repo and run the following in the command line:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm install
+npm start
+```
 
-### `yarn eject`
+You will likely be prompted to run the development server on port 3001 as the rails api backend is running on port 3000.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+If a browser window is not automatically opened for you, navigate to `http://localhost:3001/`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In the terminal run `control c` to stop the development server.
